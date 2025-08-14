@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Order Stack — Espresso Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game" aria-label="Order Stack game" role="img"></canvas>
+      <div id="hud">
+        <div class="left">
+          <div class="order-box">
+            <div class="order-title" id="orderTitle">Order</div>
+            <div class="order-icons" id="orderIcons" aria-label="Current order recipe" role="list"></div>
+            <div class="order-note" id="orderNote">Exact match = finalized rollup</div>
+          </div>
+          <a class="home-link" href="../index.html" title="Back to Espresso Games">Home</a>
+        </div>
+        <div class="right">
+          <div class="scores">
+            <div class="score"><span class="label">Score</span><span id="score">0</span></div>
+            <div class="score"><span class="label">Combo</span><span id="combo">0</span></div>
+            <div class="score"><span class="label">Wave</span><span id="wave">1</span></div>
+            <div class="score"><span class="label">Best</span><span id="best">0</span></div>
+          </div>
+          <div class="buttons">
+            <button id="muteBtn" aria-pressed="false" title="Toggle sound">Sound: On</button>
+            <button id="resetBtn" title="Reset run">Reset</button>
+          </div>
+          <div class="controls">Click/Tap a reel to stop • Space to stop highlighted</div>
+        </div>
+      </div>
+      
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+  </html>
+
+
+

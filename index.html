@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Espresso Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkfAm1T0H6S9J1F1sZq9VHtV6nRvWmvMRGsiE9z1FMvxhYhE3lDkG8WAw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <div class="bg-icons" aria-hidden="true">
+      <div class="shape e-1"></div>
+      <div class="shape e-2"></div>
+      <div class="shape e-3"></div>
+      <div class="shape e-4"></div>
+      <i class="icon icon-1 fa-solid fa-mug-saucer"></i>
+      <i class="icon icon-2 fa-regular fa-circle"></i>
+      <i class="icon icon-3 fa-solid fa-circle"></i>
+      <i class="icon icon-4 fa-solid fa-mug-saucer"></i>
+      <i class="icon icon-5 fa-regular fa-circle"></i>
+      <i class="icon icon-6 fa-solid fa-circle"></i>
+      <i class="icon icon-7 fa-solid fa-mug-saucer"></i>
+      <i class="icon icon-8 fa-regular fa-circle"></i>
+      <i class="icon icon-9 fa-solid fa-circle"></i>
+      <i class="icon icon-10 fa-solid fa-mug-saucer"></i>
+      <i class="icon icon-11 fa-regular fa-circle"></i>
+      <i class="icon icon-12 fa-solid fa-circle"></i>
+    </div>
+    <header class="header">
+      <div class="title" id="title-anim" aria-label="Espresso Games"></div>
+      <div class="subtitle">Tiny, caffeinated web minigames - Space / Tap / Click</div>
+    </header>
+    <main class="grid">
+      <a class="card playable" href="espresso-shot/index.html">
+        <div class="thumb thumb-shot"></div>
+        <div class="card-body">
+          <div class="card-title">Espresso Shot</div>
+          <div class="card-desc">Single-button timing<br>Hit the green zone to confirm rollups.</div>
+          <div class="pill">Play</div>
+        </div>
+      </a>
+      <a class="card playable" href="brew-boost/index.html">
+        <div class="thumb thumb-brew"></div>
+        <div class="card-body">
+          <div class="card-title">Brew &amp; Boost</div>
+          <div class="card-desc">Match tiles to get coffee boosters<br>Swap, clear, and score within moves.</div>
+          <div class="pill">Play</div>
+        </div>
+      </a>
+      <a class="card playable" href="type-espresso/index.html">
+        <div class="thumb thumb-type"></div>
+        <div class="card-body">
+          <div class="card-title">Type Espresso</div>
+          <div class="card-desc">Time-based typing game<br>Measure WPM and accuracy.</div>
+          <div class="pill">Play</div>
+        </div>
+      </a>
+      <a class="card playable" href="order-stack/index.html">
+        <div class="thumb thumb-stack"></div>
+        <div class="card-body">
+          <div class="card-title">Order Stack</div>
+          <div class="card-desc">Stop three reels to match the order. Exact stacks finalize; wrong stacks reorg.</div>
+          <div class="pill">Play</div>
+        </div>
+      </a>
+      <a class="card playable" href="jigsaw-espresso/index.html">
+        <div class="thumb thumb-jigsaw"></div>
+        <div class="card-body">
+          <div class="card-title">Jigsaw Espresso</div>
+          <div class="card-desc">Solve NFT jigsaws fast to score big. Drag pieces, snap, and brew your best time.</div>
+          <div class="pill">Play</div>
+        </div>
+      </a>
+      <a class="card playable" href="elevator-pitch/index.html">
+        <div class="thumb thumb-elevator"></div>
+        <div class="card-body">
+          <div class="card-title">Elevator Pitch</div>
+          <div class="card-desc">Scramble & arrange the sentence fast. Drag, drop, and submit.</div>
+          <div class="pill">Play</div>
+        </div>
+      </a>
+    </main>
+    <footer class="footer">© Espresso Games</footer>
+    <script>
+      (function(){
+        const TITLE_TEXT = 'Espresso Games';
+        const container = document.getElementById('title-anim');
+        if (!container) return;
+
+        // Initialize spans per character
+        const chars = Array.from(TITLE_TEXT);
+        container.innerHTML = '';
+        chars.forEach((ch) => {
+          const span = document.createElement('span');
+          span.textContent = ch;
+          span.dataset.char = ch;
+          container.appendChild(span);
+        });
+
+        const spans = Array.from(container.querySelectorAll('span'));
+
+        const mouse = { x: 0, y: 0 };
+        const cursor = { x: 0, y: 0 };
+
+        function dist(a, b){
+          const dx = b.x - a.x;
+          const dy = b.y - a.y;
+          return Math.hypot(dx, dy);
+        }
+
+        function setInitialPointer(){
+          const rect = container.getBoundingClientRect();
+          mouse.x = rect.left + rect.width / 2;
+          mouse.y = rect.top + rect.height / 2;
+          cursor.x = mouse.x;
+          cursor.y = mouse.y;
+        }
+
+        function onMouseMove(e){ cursor.x = e.clientX; cursor.y = e.clientY; }
+        function onTouchMove(e){ const t = e.touches[0]; if (!t) return; cursor.x = t.clientX; cursor.y = t.clientY; }
+
+        window.addEventListener('mousemove', onMouseMove);
+        window.addEventListener('touchmove', onTouchMove, { passive: true });
+
+        setInitialPointer();
+        window.addEventListener('resize', setInitialPointer);
+
+        function getAttr(distance, minVal, maxVal, maxDist){
+          const val = maxVal - Math.abs((maxVal * distance) / maxDist);
+          return Math.max(minVal, val + minVal);
+        }
+
+        let rafId;
+        function animate(){
+          mouse.x += (cursor.x - mouse.x) / 15;
+          mouse.y += (cursor.y - mouse.y) / 15;
+
+          const titleRect = container.getBoundingClientRect();
+          const maxDist = Math.max(120, titleRect.width / 2);
+
+          for (let i = 0; i < spans.length; i++){
+            const span = spans[i];
+            const r = span.getBoundingClientRect();
+            const center = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+            const d = dist(mouse, center);
+
+            const wdth = Math.floor(getAttr(d, 5, 200, maxDist));
+            const wght = Math.floor(getAttr(d, 100, 900, maxDist));
+            const ital = getAttr(d, 0, 1, maxDist).toFixed(2);
+
+            span.style.opacity = '1';
+            span.style.fontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${ital}`;
+          }
+
+          rafId = requestAnimationFrame(animate);
+        }
+        animate();
+
+      })();
+    </script>
+    <script>
+      (function(){
+        const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+        const lerp = (a, b, t) => a + (b - a) * t;
+        const cards = Array.from(document.querySelectorAll('.card'));
+
+        cards.forEach(card => {
+          let target = { xPct: 50, yPct: 50, rx: 0, ry: 0, bgx: 50, bgy: 50 };
+          let current = { ...target };
+          let rafId = null;
+
+          function animate(){
+            current.xPct = lerp(current.xPct, target.xPct, 0.18);
+            current.yPct = lerp(current.yPct, target.yPct, 0.18);
+            current.rx = lerp(current.rx, target.rx, 0.18);
+            current.ry = lerp(current.ry, target.ry, 0.18);
+            current.bgx = lerp(current.bgx, target.bgx, 0.1);
+            current.bgy = lerp(current.bgy, target.bgy, 0.1);
+
+            card.style.setProperty('--mx', current.xPct + '%');
+            card.style.setProperty('--my', current.yPct + '%');
+            card.style.setProperty('--rx', current.rx + 'deg');
+            card.style.setProperty('--ry', current.ry + 'deg');
+            card.style.setProperty('--bgx', current.bgx + '%');
+            card.style.setProperty('--bgy', current.bgy + '%');
+
+            if (Math.abs(current.xPct - target.xPct) > 0.01 ||
+                Math.abs(current.yPct - target.yPct) > 0.01 ||
+                Math.abs(current.rx - target.rx) > 0.01 ||
+                Math.abs(current.ry - target.ry) > 0.01 ||
+                Math.abs(current.bgx - target.bgx) > 0.01 ||
+                Math.abs(current.bgy - target.bgy) > 0.01) {
+              rafId = requestAnimationFrame(animate);
+            } else {
+              rafId = null;
+            }
+          }
+
+          function setFromEvent(e){
+            const rect = card.getBoundingClientRect();
+            const nx = clamp((e.clientX - rect.left) / rect.width, 0, 1);
+            const ny = clamp((e.clientY - rect.top) / rect.height, 0, 1);
+            const dx = nx * 100 - 50;
+            const dy = ny * 100 - 50;
+
+            // pointer position
+            target.xPct = nx * 100;
+            target.yPct = ny * 100;
+
+            // background parallax similar to example ratios
+            target.bgx = 50 + nx * 25 - 12.5;  // 50 + (percentage.x / 4) - 12.5
+            target.bgy = 50 + ny * 33.33 - 16.67; // 50 + (percentage.y / 3) - 16.67
+
+            // rotation with factor
+            const rotateFactor = 0.4;
+            target.rx = -(dx / 3.5) * rotateFactor;
+            target.ry = (dy / 2) * rotateFactor;
+
+            if (!rafId) rafId = requestAnimationFrame(animate);
+          }
+
+          function reset(){
+            target = { xPct: 50, yPct: 50, rx: 0, ry: 0, bgx: 50, bgy: 50 };
+            if (!rafId) rafId = requestAnimationFrame(animate);
+          }
+
+          card.addEventListener('pointermove', setFromEvent);
+          card.addEventListener('pointerenter', setFromEvent);
+          card.addEventListener('pointerleave', reset);
+        });
+      })();
+    </script>
+  </body>
+  </html>
+
+

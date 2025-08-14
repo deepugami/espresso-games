@@ -1,0 +1,130 @@
+:root {
+  --espresso-0: #120a04;
+  --espresso-1: #2a160a;
+  --espresso-2: #4a2b17;
+  --espresso-3: #6b3a1f;
+  --espresso-4: #8a4b2a;
+  --espresso-5: #b06b3a;
+  --crema: #e9c49a;
+  --text: #f5efe9;
+  --accent: #2fd27a;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  margin: 0;
+  color: var(--text);
+  background: radial-gradient(1400px 900px at 70% -10%, var(--espresso-3), var(--espresso-1)) fixed;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  user-select: none;
+}
+
+.hud {
+  position: fixed;
+  top: 12px;
+  right: 6px;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(4, max-content);
+  align-items: center;
+  gap: 4px 6px;
+  padding: 0;
+}
+.back { color: var(--text); text-decoration: none; font-weight: 800; opacity: .9; }
+.hud-section { text-align: center; min-width: 72px; }
+.hud-label { opacity: .8; font-size: 12px; }
+.hud-value { font-weight: 800; font-size: 20px; letter-spacing: .3px; }
+
+main { display: grid; place-items: start center; gap: 0; }
+
+.grid {
+  --size: 8;
+  --tile: 64px;
+  --gap: 6px;
+  display: grid;
+  grid-template-columns: repeat(var(--size), var(--tile));
+  grid-auto-rows: var(--tile);
+  gap: var(--gap);
+  padding: 12px;
+  border-radius: 16px;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2));
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.tile {
+  width: var(--tile);
+  height: var(--tile);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(0,0,0,.18);
+  border: 1px solid rgba(255,255,255,.08);
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+.tile.selected { outline: 3px solid color-mix(in oklab, var(--accent), black 25%); outline-offset: -3px; }
+.tile.locked::after { content: ""; position: absolute; inset: 0; border-radius: 12px; background: rgba(0,0,0,.35); border: 1px dashed rgba(255,255,255,.2); }
+.tile .badge { position: absolute; bottom: 4px; right: 6px; font-size: 12px; font-weight: 800; background: rgba(0,0,0,.6); padding: 2px 6px; border-radius: 999px; }
+
+.icon { width: 72%; height: 72%; display: block; pointer-events: none; }
+.icon img { width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none; }
+
+/* Animations */
+.tile.clearing { animation: popout 140ms ease forwards; }
+@keyframes popout {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(.6); opacity: 0; }
+}
+
+.tile.falling { animation: drop var(--dur, .25s) cubic-bezier(.2, .9, .2, 1) forwards; }
+@keyframes drop {
+  0% { transform: translateY(calc(var(--fallStep, 70px) * var(--dy))); }
+  100% { transform: translateY(0); }
+}
+
+.tile.spawning { animation: spawn 240ms ease; }
+@keyframes spawn {
+  0% { transform: scale(.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.dbl .badge { background: color-mix(in oklab, #ffd54f, black 20%); color: #412; }
+.tri .badge { background: color-mix(in oklab, #90caf9, black 20%); color: #013; }
+
+.controls {
+  position: fixed;
+  left: 12px;
+  top: 64px; /* will be adjusted via JS for exact HUD height */
+  z-index: 3;
+  display: flex; gap: 10px; align-items: center;
+}
+.btn { background: color-mix(in oklab, var(--accent), black 10%); color: #062b18; border: 1px solid color-mix(in oklab, var(--accent), black 25%); padding: 8px 12px; border-radius: 10px; font-weight: 800; cursor: pointer; }
+.btn-secondary { background: rgba(255,255,255,.1); color: var(--text); border-color: rgba(255,255,255,.2); }
+.toggle { display: inline-flex; gap: 8px; align-items: center; opacity: .85; }
+
+/* box wrappers for each control */
+.box {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2));
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  padding: 6px 10px; border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,.25);
+  color: var(--text);
+  text-decoration: none;
+}
+.toggle.box { padding: 6px 10px; }
+.toggle.box input { margin-right: 6px; }
+
+.overlay { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.45); }
+.hidden { display: none !important; }
+.dialog { background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); padding: 18px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.25); min-width: 280px; }
+.dialog-title { font-weight: 800; font-size: 20px; margin-bottom: 6px; }
+.dialog-desc { opacity: .9; margin-bottom: 12px; }
+.dialog-actions { display: flex; gap: 10px; justify-content: flex-end; }
+
+.tooltip { position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.45); border: 1px solid rgba(255,255,255,.2); padding: 8px 12px; border-radius: 12px; font-size: 12px; z-index: 4; }
+
+.toast { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.6); border: 1px solid rgba(255,255,255,.2); padding: 8px 12px; border-radius: 12px; font-size: 12px; z-index: 2; }
+
+

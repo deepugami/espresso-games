@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Brew &amp; Boost — Espresso Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hud">
+      <div class="hud-section">
+        <div class="hud-label">Level</div>
+        <div id="level" class="hud-value">1</div>
+      </div>
+      <div class="hud-section">
+        <div class="hud-label">Moves</div>
+        <div id="moves" class="hud-value">20</div>
+      </div>
+      <div class="hud-section">
+        <div class="hud-label">Score</div>
+        <div id="score" class="hud-value">0</div>
+      </div>
+      <div class="hud-section">
+        <div class="hud-label">Target</div>
+        <div id="target" class="hud-value">20000</div>
+      </div>
+    </header>
+    <main>
+      <div id="grid" class="grid" aria-label="Match-3 grid" role="application"></div>
+      <div class="controls">
+        <a id="homeBtn" class="btn box" href="../index.html" title="Home">Home</a>
+        <button id="undoBtn" class="btn box" title="Undo last swap">Undo</button>
+        <label class="toggle box">
+          <input id="assist" type="checkbox" />
+          <span>Autocombine</span>
+        </label>
+      </div>
+    </main>
+    <div id="shuffleToast" class="toast hidden">Shuffling…</div>
+    <div id="overlay" class="overlay hidden" role="dialog" aria-modal="true">
+      <div class="dialog">
+        <div id="resultTitle" class="dialog-title">Level Clear!</div>
+        <div id="resultDesc" class="dialog-desc"></div>
+        <div class="dialog-actions">
+          <button id="nextBtn" class="btn">Next</button>
+          <button id="retryBtn" class="btn btn-secondary">Retry</button>
+        </div>
+      </div>
+    </div>
+    <div id="tooltip" class="tooltip hidden">Match-4 creates Double Brew (×2). Match-5 creates Espresso Shot (×3).</div>
+    <script src="main.js"></script>
+    <script src="../shared/audio.js"></script>
+  </body>
+  </html>
+
+

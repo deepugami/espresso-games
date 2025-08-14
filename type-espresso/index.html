@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Type Espresso — Espresso Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="topbar">
+        <a class="home-link" href="../index.html">Home</a>
+        <div class="stats">
+          <div class="stat"><span class="label">WPM</span> <span id="wpm">0</span></div>
+          <div class="stat"><span class="label">Accuracy</span> <span id="acc">100%</span></div>
+          <div class="stat"><span class="label">Time</span> <span id="time">30s</span></div>
+          <div class="stat"><span class="label">Best WPM</span> <span id="best">0</span></div>
+        </div>
+        <div class="controls">
+          <div class="segmented" role="group" aria-label="Test length">
+            <button id="time30" aria-pressed="true">30s</button>
+            <button id="time60" aria-pressed="false">60s</button>
+          </div>
+          <button id="resetBtn">Reset</button>
+        </div>
+      </div>
+      <div class="wrapper">
+        <div id="prompt" class="prompt" aria-label="Typing prompt" role="article"></div>
+        <input id="hiddenInput" class="invisible-input" autocomplete="off" autocapitalize="off" spellcheck="false" />
+      </div>
+      <div id="overlay" class="overlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="resTitle">
+          <div class="modal-title" id="resTitle">Results</div>
+          <div class="modal-row"><span>WPM</span><strong id="resWpm">0</strong></div>
+          <div class="modal-row"><span>Accuracy</span><strong id="resAcc">0%</strong></div>
+          <div class="modal-actions">
+            <button id="playAgain">Play again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="texts.js"></script>
+    <script src="main.js"></script>
+  </body>
+  </html>
+
+

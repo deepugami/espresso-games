@@ -1,0 +1,153 @@
+:root {
+  --espresso-0: #120a04; /* darkest */
+  --espresso-1: #2a160a;
+  --espresso-2: #4a2b17;
+  --espresso-3: #6b3a1f;
+  --espresso-4: #8a4b2a;
+  --espresso-5: #b06b3a; /* crema */
+  --crema: #e9c49a;
+  --foam: #fff3e0;
+  --accent: #2fd27a; /* green zone */
+  --accent-dark: #1aa15a;
+  --danger: #ff5a5f; /* miss */
+  --text: #f5efe9;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 800px at 60% -10%, var(--espresso-3), var(--espresso-1)) fixed;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+#game {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.scores {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.score {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2));
+  padding: 8px 10px;
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  border-radius: 8px;
+  box-shadow: 0 2px 0 0 rgba(0,0,0,.4) inset, 0 6px 18px rgba(0,0,0,.25);
+  font-weight: 600;
+  pointer-events: auto;
+}
+
+.score .label { opacity: .8; margin-right: 8px; font-weight: 400; }
+.score.reorgs { color: var(--danger); }
+.score.combo { color: var(--crema); }
+
+.controls {
+  margin-left: auto;
+  opacity: .8;
+  background: color-mix(in oklab, var(--espresso-2), black 25%);
+  border: 1px solid color-mix(in oklab, var(--espresso-3), black 35%);
+  border-radius: 8px;
+  padding: 6px 10px;
+  pointer-events: auto;
+}
+
+.right-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-link {
+  pointer-events: auto;
+  text-decoration: none;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%));
+  color: var(--text);
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-weight: 700;
+}
+
+.buttons { pointer-events: auto; display: flex; gap: 8px; }
+.buttons button {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%));
+  color: var(--text);
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform .05s ease, filter .2s ease;
+}
+.buttons button:hover { filter: brightness(1.1); }
+.buttons button:active { transform: translateY(1px); }
+
+#tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  background: color-mix(in oklab, var(--espresso-2), black 15%);
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  border-radius: 10px;
+  padding: 10px 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  font-size: 14px;
+}
+
+/* Barista sprite placeholder */
+.barista {
+  position: absolute;
+  left: 50%;
+  top: 20%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 12px 12px 24px 24px;
+  background: linear-gradient(180deg, var(--crema), var(--espresso-5));
+  outline: 4px solid color-mix(in oklab, var(--espresso-0), white 15%);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35);
+}
+
+/* Meter visuals are drawn on canvas; this is only for layout fallback */
+
+@media (max-width: 600px) {
+  #tooltip { font-size: 12px; padding: 8px 10px; }
+  .controls { display: none; }
+}
+
+/* Micro-animations */
+.bump { animation: bump .3s ease; }
+@keyframes bump {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+

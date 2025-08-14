@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Elevator Pitch — Espresso Games</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="home" href="../index.html">← Home</a>
+      <div class="title">Elevator Pitch</div>
+      <div class="meta">
+        <span class="label">Time</span><span id="clock">00:30</span>
+        <span class="label">Score</span><span id="score">0</span>
+        <span class="label">Lvl</span><span id="level">1</span>
+        <div class="timebar"><div id="timefill"></div></div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="workspace" id="workspace"></section>
+      <section class="tray" id="tray"></section>
+      <aside class="controls">
+        <button id="hint">Hint</button>
+        <button id="shuffle">Shuffle</button>
+        <button id="undo">Undo</button>
+        <button id="submit" class="primary">Submit</button>
+      </aside>
+    </main>
+
+    <div class="modal" id="result" hidden>
+      <div class="modal-card">
+        <div id="result-title">Result</div>
+        <div id="result-detail"></div>
+        <div class="modal-actions">
+          <button id="next">Next</button>
+          <button id="replay">Replay</button>
+          <a class="home-link" href="../index.html">Home</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="sentences.js"></script>
+    <script src="main.js"></script>
+  </body>
+  </html>
+
+

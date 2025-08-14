@@ -1,0 +1,97 @@
+:root {
+  --espresso-0: #120a04;
+  --espresso-1: #2a160a;
+  --espresso-2: #4a2b17;
+  --espresso-3: #6b3a1f;
+  --espresso-4: #8a4b2a;
+  --espresso-5: #b06b3a;
+  --crema: #e9c49a;
+  --foam: #fff3e0;
+  --accent: #2fd27a;
+  --accent-dark: #1aa15a;
+  --danger: #ff5a5f;
+  --text: #f5efe9;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(1400px 900px at 70% -10%, var(--espresso-3), var(--espresso-1)) fixed;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+#app { position: fixed; inset: 0; }
+
+#game { width: 100%; height: 100%; display: block; }
+
+#hud {
+  position: absolute;
+  top: calc(10px + env(safe-area-inset-top)); left: 12px; right: 12px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  z-index: 2;
+}
+
+.left { display: grid; align-content: start; gap: 8px; }
+.right { display: grid; justify-items: end; align-content: start; gap: 8px; }
+
+.home-link {
+  text-decoration: none; color: var(--text); font-weight: 800;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%));
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  border-radius: 8px; padding: 6px 10px;
+}
+
+.scores { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.score { background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 8px; padding: 6px 10px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.score .label { opacity: .8; margin-right: 6px; font-weight: 400; }
+.buttons { display: flex; gap: 8px; }
+.buttons button { cursor: pointer; background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 8px; padding: 6px 10px; color: var(--text); font-weight: 700; }
+.controls { opacity: .85; background: color-mix(in oklab, var(--espresso-2), black 25%); border: 1px solid color-mix(in oklab, var(--espresso-3), black 35%); border-radius: 8px; padding: 6px 10px; }
+
+.order-box { background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); max-width: min(420px, 86vw); }
+.order-title { font-weight: 800; font-size: 16px; margin-bottom: 6px; }
+.order-icons { display: flex; gap: 10px; flex-wrap: wrap; }
+.order-note { margin-top: 6px; font-size: 12px; opacity: .85; }
+
+#topbar { display: none; }
+
+/* Reel visuals (drawn on canvas, but also used for fallback legend) */
+.legend { display: flex; gap: 10px; margin-top: 6px; opacity: .9; font-size: 12px; }
+.icon { min-width: 48px; height: 28px; padding: 0 8px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; letter-spacing: .5px; font-size: 14px; }
+.ic-ESP { background: var(--espresso-4); color: var(--crema); }
+.ic-MLK { background: #d9e3f0; color: #203040; }
+.ic-SYR { background: #b85c2f; color: #fff; }
+.ic-BEN { background: #3a2316; color: #d4b48a; }
+.ic-CRM { background: var(--foam); color: #6b3a1f; }
+
+/* Micro-animations */
+.bump { animation: bump .25s ease; }
+@keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+
+
+/* Responsive layout refinement */
+@media (max-width: 900px) {
+  #topbar { top: calc(72px + env(safe-area-inset-top)); }
+}
+
+@media (max-width: 720px) {
+  #hud { gap: 10px; }
+  .home-link { padding: 6px 8px; }
+  .buttons button { padding: 6px 8px; }
+  #topbar { top: calc(82px + env(safe-area-inset-top)); }
+}
+
+@media (max-width: 640px) {
+  #hud { flex-direction: column; align-items: stretch; }
+  .right { justify-items: start; }
+  .scores { gap: 8px; }
+  .order-box { max-width: 100%; }
+  .controls { font-size: 12px; }
+  .icon { min-width: 42px; height: 26px; font-size: 12px; }
+  #topbar { top: calc(112px + env(safe-area-inset-top)); }
+}
+
+
+

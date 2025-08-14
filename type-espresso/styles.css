@@ -1,0 +1,72 @@
+:root {
+  --espresso-0: #120a04;
+  --espresso-1: #2a160a;
+  --espresso-2: #4a2b17;
+  --espresso-3: #6b3a1f;
+  --espresso-4: #8a4b2a;
+  --crema: #e9c49a;
+  --accent: #2fd27a;
+  --text: #f5efe9;
+  --miss: #ff5a5f;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: radial-gradient(1400px 900px at 70% -10%, var(--espresso-3), var(--espresso-1)) fixed;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+#app { position: fixed; inset: 0; display: grid; grid-template-rows: auto 1fr; }
+.topbar {
+  display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 12px;
+}
+.home-link {
+  text-decoration: none; color: var(--text); font-weight: 800;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%));
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  border-radius: 8px; padding: 6px 10px;
+}
+.stats { display: flex; gap: 12px; }
+.stat { background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 8px; padding: 6px 10px; font-weight: 700; }
+.stat .label { opacity: .8; margin-right: 6px; font-weight: 400; }
+.controls { display: flex; gap: 8px; align-items: center; }
+.controls button { cursor: pointer; background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 8px; padding: 6px 10px; color: var(--text); font-weight: 700; }
+.segmented { display: inline-flex; border-radius: 8px; overflow: hidden; border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); }
+.segmented > button { background: none; border: none; padding: 6px 10px; color: var(--text); font-weight: 800; opacity: .7; }
+.segmented > button[aria-pressed="true"] { background: color-mix(in oklab, var(--accent), black 70%); opacity: 1; }
+
+.wrapper { display: grid; place-items: center; padding: 20px; }
+.prompt {
+  max-width: 900px;
+  line-height: 1.8;
+  font-size: clamp(16px, 2.2vw, 22px);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2));
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
+  border-radius: 12px;
+  padding: 18px 18px 22px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+.invisible-input { position: absolute; left: -9999px; }
+
+.c-correct { color: var(--crema); }
+.c-current { color: var(--accent); text-decoration: underline; text-underline-offset: 6px; }
+.c-wrong { color: var(--miss); background: rgba(255,90,95,.12); border-radius: 4px; }
+.w-wrong { color: var(--miss); background: rgba(255,90,95,.08); border-radius: 6px; padding: 0 2px; }
+
+.meta { margin-top: 12px; opacity: .85; font-size: 14px; }
+
+/* Results modal */
+.overlay { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.4); opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+.overlay.show { opacity: 1; pointer-events: auto; }
+.modal { width: min(420px, 90vw); background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 12px; padding: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.4); transform: translateY(10px) scale(.98); animation: pop .24s ease forwards; }
+.modal-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+.modal-row { display: flex; justify-content: space-between; padding: 8px 0; }
+.modal-actions { display: flex; justify-content: flex-end; margin-top: 12px; }
+.modal-actions button { cursor: pointer; background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 8px; padding: 8px 12px; color: var(--text); font-weight: 800; }
+@keyframes pop { to { transform: translateY(0) scale(1); } }
+
+

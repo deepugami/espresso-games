@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Espresso Shot — Single-Button Timing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game" aria-label="Espresso Shot timing game" role="img"></canvas>
+      <div id="hud">
+        <div class="scores">
+          <div class="score" id="confirmedBox"><span class="label">Confirmed rollups</span><span id="confirmed">0</span></div>
+          <div class="score reorgs" id="reorgsBox"><span class="label">Reorgs</span><span id="reorgs">0</span></div>
+          <div class="score combo" id="comboBox"><span class="label">Combo</span><span id="combo">x0</span></div>
+          <div class="score best"><span class="label">Best</span><span id="best">0</span></div>
+          <div class="score best"><span class="label">Best combo</span><span id="bestCombo">x0</span></div>
+        </div>
+        <div class="right-tools">
+          <a class="home-link" href="../index.html" title="Back to Espresso Games">Home</a>
+          <div class="controls">Tap / Click / Space</div>
+          <div class="buttons">
+            <button id="toggleBridge" aria-pressed="true" title="Toggle moving green zone">Bridge: On</button>
+            <button id="muteBtn" aria-pressed="false" title="Toggle sound">Sound: On</button>
+            <button id="resetBtn" title="Reset run">Reset</button>
+          </div>
+        </div>
+      </div>
+      <div id="tooltip">
+        <strong>Espresso Shot</strong> — Time the shot when the meter hits the green zone.<br />
+        Perfect hits = <em>finality</em>; misses = <em>reorg</em>.
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+  </html>
+
+

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jigsaw Espresso</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <a class="back" href="../index.html" aria-label="Back to Espresso Games">← All games</a>
+      <div class="title">Jigsaw Espresso</div>
+      <div class="subtitle">Solve NFT jigsaws fast to score big</div>
+    </header>
+
+    <section class="hud" aria-label="Game HUD">
+      <div class="timer" aria-live="polite">
+        <div class="glass" aria-hidden="true">
+          <div class="fill" id="timerFill"></div>
+        </div>
+        <div class="time-text"><span id="time">03:00</span></div>
+      </div>
+      <div class="score">
+        <span class="label">Score</span>
+        <span id="score">0</span>
+      </div>
+      <div class="hints">
+        <button id="hintBtn" class="btn" type="button" aria-label="Use hint">
+          ☕ Hint <span id="hintsLeft">3</span>
+        </button>
+      </div>
+      <div class="actions">
+        <button id="restartBtn" class="btn" type="button">Restart</button>
+        <button id="nextImgBtn" class="btn" type="button">New Image</button>
+      </div>
+    </section>
+
+    <main class="game" aria-label="Jigsaw board">
+      <div id="boardWrap">
+        <div id="board" aria-label="Puzzle board"></div>
+        <div id="guideOverlay" aria-hidden="true"></div>
+      </div>
+      <div id="pieces" aria-label="Puzzle pieces tray"></div>
+    </main>
+
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-card">
+        <div class="modal-title" id="modalTitle">Brew-tiful!</div>
+        <div class="modal-body">
+          <div class="beans" id="beanRating" aria-label="Coffee bean rating">☕☕☕</div>
+          <div class="stats"><span id="resultTime">0:00</span> · <span id="resultScore">0</span> pts</div>
+        </div>
+        <div class="modal-actions">
+          <button id="modalReplay" class="btn">Replay</button>
+          <button id="modalNew" class="btn">Another Image</button>
+          <a class="btn btn-link" href="../index.html">Home</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+  </html>
+
+
