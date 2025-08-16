@@ -35,8 +35,9 @@
         <button id="undoBtn" class="btn box" title="Undo last swap">Undo</button>
         <label class="toggle box">
           <input id="assist" type="checkbox" />
-          <span>Autocombine</span>
+          <span>Hints</span>
         </label>
+        <button id="howtoBtn" class="btn box" title="How to Play">How&nbsp;To&nbsp;Play</button>
       </div>
     </main>
     <div id="shuffleToast" class="toast hidden">Shuffling…</div>
@@ -51,8 +52,33 @@
       </div>
     </div>
     <div id="tooltip" class="tooltip hidden">Match-4 creates Double Brew (×2). Match-5 creates Espresso Shot (×3).</div>
+    <div id="howtoOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
+      <div class="dialog">
+        <div id="howtoTitle" class="dialog-title">How To Play</div>
+        <div class="dialog-desc">
+          Swap adjacent tiles to match 3+ coffee icons. Clear targets within limited moves.<br/>
+          Match‑4 creates Double Brew (×2); Match‑5 creates Espresso Shot (×3). Use Hints if stuck.
+        </div>
+        <div class="dialog-actions">
+          <button id="howtoClose" class="btn">Got it</button>
+        </div>
+      </div>
+    </div>
     <script src="main.js"></script>
     <script src="../shared/audio.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('howtoBtn');
+        const ov = document.getElementById('howtoOverlay');
+        const close = document.getElementById('howtoClose');
+        if(btn && ov && close){
+          btn.addEventListener('click', () => ov.classList.remove('hidden'));
+          close.addEventListener('click', () => ov.classList.add('hidden'));
+          ov.addEventListener('click', (e) => { if(e.target === ov) ov.classList.add('hidden'); });
+          window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') ov.classList.add('hidden'); });
+        }
+      })();
+    </script>
   </body>
   </html>
 

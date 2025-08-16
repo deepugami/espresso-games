@@ -112,6 +112,39 @@
     barEdge: '#8a4b2a'
   };
 
+  // Image shuffling for center box
+  const imagePaths = [
+    'images/1127.png', 'images/1692.png', 'images/2036.png', 'images/2143.png',
+    'images/2185.png', 'images/3075.png', 'images/314.png', 'images/3575.png',
+    'images/4294.png', 'images/4318.png', 'images/749.png', 'images/865.png', 'images/874.png'
+  ];
+  const images = [];
+  let currentImageIndex = 0;
+  let imageChangeTime = 0;
+  const imageChangeInterval = 0.8; // Change image every 0.8 seconds
+
+  // Shuffle array function
+  function shuffleArray(array) {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }
+
+  // Shuffle the image paths for random order
+  const shuffledPaths = shuffleArray(imagePaths);
+
+  // Load images
+  shuffledPaths.forEach((path, index) => {
+    const img = new Image();
+    img.src = path;
+    img.onload = () => {
+      images[index] = img;
+    };
+  });
+
   // Game state
   let running = true;
   let time = 0;
@@ -164,6 +197,13 @@
 
   function update(dt) {
     time += dt;
+    
+    // Update image shuffling
+    imageChangeTime += dt;
+    if (imageChangeTime >= imageChangeInterval && images.length > 0) {
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+      imageChangeTime = 0;
+    }
 
     // Move marker 0..1..0 with ping-pong motion
     markerPos += markerDir * speed * dt;
@@ -247,30 +287,48 @@
     const w = canvas.clientWidth;
     const h = canvas.clientHeight;
 
-    // Background crema vignette
+    // Clear canvas for transparent background (let CSS animation show through)
     ctx.clearRect(0, 0, w, h);
-    const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, colors.bg1);
-    g.addColorStop(1, colors.bg0);
-    ctx.fillStyle = g;
     // Screen shake
     const sx = (Math.random() * 2 - 1) * 6 * shake;
     const sy = (Math.random() * 2 - 1) * 4 * shake;
     ctx.save();
     ctx.translate(sx, sy);
-    ctx.fillRect(0, 0, w, h);
+    // Canvas is now transparent - CSS background animation will show through
 
-    // Barista placeholder block
+    // Center image box
     const bx = w * 0.5 - 50;
     const by = h * 0.22 - 50;
-    roundedRect(bx, by, 100, 100, 18);
-    const bg2 = ctx.createLinearGradient(0, by, 0, by + 100);
-    bg2.addColorStop(0, colors.crema);
-    bg2.addColorStop(1, colors.espresso);
-    ctx.fillStyle = bg2;
-    ctx.fill();
+    const boxSize = 100;
+    const borderRadius = 18;
+    
+    // Save context for clipping
+    ctx.save();
+    
+    // Create clipping path for rounded rectangle
+    roundedRect(bx, by, boxSize, boxSize, borderRadius);
+    ctx.clip();
+    
+    // Draw current image if loaded
+    if (images.length > 0 && images[currentImageIndex]) {
+      const img = images[currentImageIndex];
+      ctx.drawImage(img, bx, by, boxSize, boxSize);
+    } else {
+      // Fallback gradient if images not loaded yet
+      const bg2 = ctx.createLinearGradient(0, by, 0, by + boxSize);
+      bg2.addColorStop(0, colors.crema);
+      bg2.addColorStop(1, colors.espresso);
+      ctx.fillStyle = bg2;
+      ctx.fillRect(bx, by, boxSize, boxSize);
+    }
+    
+    // Restore context
+    ctx.restore();
+    
+    // Draw border
+    roundedRect(bx, by, boxSize, boxSize, borderRadius);
     ctx.lineWidth = 4;
-    ctx.strokeStyle = '#1c120b';
+    ctx.strokeStyle = '#8a4b2a'; // Lighter brown stroke
     ctx.stroke();
 
     // Meter area
@@ -406,6 +464,8 @@
     flash = 0;
     bridgeT = 0;
     particles.length = 0;
+    currentImageIndex = 0;
+    imageChangeTime = 0;
     updateHud();
   }
 

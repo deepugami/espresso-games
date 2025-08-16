@@ -10,6 +10,12 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="bg-espresso" aria-hidden="true">
+      <div class="bg-gradient"></div>
+      <div class="bg-blob b1"></div>
+      <div class="bg-blob b2"></div>
+      <div class="bg-blob b3"></div>
+    </div>
     <header class="header">
       <a class="back" href="../index.html" aria-label="Back to Espresso Games">← All games</a>
       <div class="title">Jigsaw Espresso</div>
@@ -35,6 +41,7 @@
       <div class="actions">
         <button id="restartBtn" class="btn" type="button">Restart</button>
         <button id="nextImgBtn" class="btn" type="button">New Image</button>
+        <button id="howtoBtn" class="btn" type="button">How&nbsp;To&nbsp;Play</button>
       </div>
     </section>
 
@@ -61,7 +68,32 @@
       </div>
     </div>
 
+    <div id="howto" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <div class="modal-title">How To Play</div>
+        <div class="modal-body">
+          Drag and drop pieces to assemble the picture. Use hints sparingly; finish fast for higher scores. Try new images for variety.
+        </div>
+        <div class="modal-actions">
+          <button id="howtoClose" class="btn">Got it</button>
+        </div>
+      </div>
+    </div>
+
     <script src="main.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('howtoBtn');
+        const modal = document.getElementById('howto');
+        const close = document.getElementById('howtoClose');
+        if(btn && modal && close){
+          btn.addEventListener('click', ()=> modal.setAttribute('aria-hidden','false'));
+          close.addEventListener('click', ()=> modal.setAttribute('aria-hidden','true'));
+          modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.setAttribute('aria-hidden','true'); });
+          window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') modal.setAttribute('aria-hidden','true'); });
+        }
+      })();
+    </script>
   </body>
   </html>
 

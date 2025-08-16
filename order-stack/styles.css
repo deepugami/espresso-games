@@ -24,7 +24,26 @@ body {
 
 #app { position: fixed; inset: 0; }
 
-#game { width: 100%; height: 100%; display: block; }
+#game { width: 100%; height: 100%; display: block; position: relative; z-index: 1; }
+
+#app .floating-mugs { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.floating-mugs .mug { 
+  position: absolute; 
+  left: var(--x);
+  bottom: -80px; 
+  transform: translateX(-50%) scale(var(--s, .9)); 
+  animation: floatUp var(--d, 24s) linear infinite; 
+  animation-delay: var(--delay, 0s);
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,.35));
+}
+.floating-mugs .mug img { width: 56px; height: 56px; object-fit: contain; display: block; opacity: .95; }
+
+@keyframes floatUp {
+  0% { transform: translate(-50%, 0) scale(var(--s, .9)); opacity: 0; }
+  10% { opacity: .9; }
+  50% { transform: translate(calc(-50% + 8px), -50vh) scale(var(--s, .9)); }
+  100% { transform: translate(calc(-50% - 10px), -105vh) scale(var(--s, .9)); opacity: 0; }
+}
 
 #hud {
   position: absolute;
@@ -41,19 +60,106 @@ body {
   background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%));
   border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%);
   border-radius: 8px; padding: 6px 10px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-size: clamp(12px, 3vw, 14px);
 }
 
 .scores { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.score { background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 8px; padding: 6px 10px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.score .label { opacity: .8; margin-right: 6px; font-weight: 400; }
+.score { 
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); 
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); 
+  border-radius: 8px; 
+  padding: 6px 10px; 
+  font-weight: 700; 
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(12px, 3vw, 14px);
+}
+.score .label { opacity: .8; margin-right: 6px; font-weight: 400; font-size: clamp(10px, 2.5vw, 12px); }
 .buttons { display: flex; gap: 8px; }
-.buttons button { cursor: pointer; background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 8px; padding: 6px 10px; color: var(--text); font-weight: 700; }
-.controls { opacity: .85; background: color-mix(in oklab, var(--espresso-2), black 25%); border: 1px solid color-mix(in oklab, var(--espresso-3), black 35%); border-radius: 8px; padding: 6px 10px; }
+.buttons button { 
+  cursor: pointer; 
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%)); 
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); 
+  border-radius: 8px; 
+  padding: 6px 10px; 
+  color: var(--text); 
+  font-weight: 700;
+  min-height: 44px;
+  font-size: clamp(12px, 3vw, 14px);
+}
+.controls { 
+  opacity: .85; 
+  background: color-mix(in oklab, var(--espresso-2), black 25%); 
+  border: 1px solid color-mix(in oklab, var(--espresso-3), black 35%); 
+  border-radius: 8px; 
+  padding: 6px 10px;
+  font-size: clamp(11px, 2.8vw, 13px);
+}
 
-.order-box { background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); border-radius: 12px; padding: 10px 12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); max-width: min(420px, 86vw); }
-.order-title { font-weight: 800; font-size: 16px; margin-bottom: 6px; }
-.order-icons { display: flex; gap: 10px; flex-wrap: wrap; }
-.order-note { margin-top: 6px; font-size: 12px; opacity: .85; }
+/* Mobile HUD optimization */
+@media (max-width: 768px) {
+  #hud {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    top: calc(8px + env(safe-area-inset-top));
+    left: 8px;
+    right: 8px;
+  }
+  
+  .left, .right {
+    justify-items: stretch;
+    text-align: center;
+  }
+  
+  .scores {
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .score {
+    flex: 1;
+    text-align: center;
+    padding: 4px 6px;
+  }
+  
+  .buttons {
+    justify-content: center;
+    gap: 6px;
+  }
+  
+  .buttons button {
+    flex: 1;
+    max-width: 120px;
+  }
+}
+
+.order-box { 
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); 
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); 
+  border-radius: 12px; 
+  padding: 10px 12px; 
+  box-shadow: 0 10px 30px rgba(0,0,0,.25); 
+  max-width: min(420px, 86vw);
+}
+.order-title { font-weight: 800; font-size: clamp(14px, 3.5vw, 16px); margin-bottom: 6px; }
+.order-icons { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.order-note { margin-top: 6px; font-size: clamp(10px, 2.5vw, 12px); opacity: .85; }
+
+/* Mobile order box optimization */
+@media (max-width: 768px) {
+  .order-box {
+    max-width: 95vw;
+    padding: 8px 10px;
+    margin: 0 auto;
+  }
+  
+  .order-icons {
+    gap: 6px;
+  }
+}
 
 #topbar { display: none; }
 
@@ -95,3 +201,29 @@ body {
 
 
 
+
+/* How To Play modal (reusing existing aesthetic) */
+.hidden { display: none !important; }
+.overlay { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.45); padding: 16px; z-index: 10; }
+.modal { 
+  width: min(460px, 92vw); 
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-4), black 20%), var(--espresso-2)); 
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); 
+  border-radius: 12px; 
+  padding: 16px; 
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.modal-title { font-size: clamp(18px, 5vw, 22px); font-weight: 800; margin-bottom: 8px; }
+.modal-body { font-size: clamp(13px, 3vw, 14px); opacity: .95; }
+.modal-actions { display: flex; justify-content: flex-end; margin-top: 12px; gap: 8px; flex-wrap: wrap; }
+.modal-actions button { 
+  cursor: pointer; 
+  background: linear-gradient(180deg, color-mix(in oklab, var(--espresso-5), black 12%), color-mix(in oklab, var(--espresso-3), black 12%)); 
+  border: 1px solid color-mix(in oklab, var(--espresso-4), black 35%); 
+  border-radius: 8px; 
+  padding: 8px 12px; 
+  color: var(--text); 
+  font-weight: 800;
+  min-height: 44px;
+  font-size: clamp(12px, 3vw, 14px);
+}

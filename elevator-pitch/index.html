@@ -29,6 +29,7 @@
         <button id="shuffle">Shuffle</button>
         <button id="undo">Undo</button>
         <button id="submit" class="primary">Submit</button>
+        <button id="howtoBtn">How&nbsp;To&nbsp;Play</button>
       </aside>
     </main>
 
@@ -44,8 +45,33 @@
       </div>
     </div>
 
+    <div class="modal" id="howto" hidden>
+      <div class="modal-card">
+        <div class="modal-title">How To Play</div>
+        <div class="modal-body">
+          Drag words from the tray to the workspace to craft a clear elevator pitch before time runs out. Submit to score; use Hint or Shuffle if stuck.
+        </div>
+        <div class="modal-actions">
+          <button id="howtoClose">Got it</button>
+        </div>
+      </div>
+    </div>
+
     <script src="sentences.js"></script>
     <script src="main.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('howtoBtn');
+        const modal = document.getElementById('howto');
+        const close = document.getElementById('howtoClose');
+        if(btn && modal && close){
+          btn.addEventListener('click', ()=> modal.hidden = false);
+          close.addEventListener('click', ()=> modal.hidden = true);
+          modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.hidden = true; });
+          window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') modal.hidden = true; });
+        }
+      })();
+    </script>
   </body>
   </html>
 

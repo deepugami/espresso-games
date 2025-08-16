@@ -10,6 +10,23 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Coffee ripple background animation -->
+    <div class="ripple-background">
+      <!-- Left side ripples -->
+      <div class="circle xxlarge shade1 left"></div>
+      <div class="circle xlarge shade2 left"></div>
+      <div class="circle large shade3 left"></div>
+      <div class="circle medium shade4 left"></div>
+      <div class="circle small shade5 left"></div>
+      
+      <!-- Right side ripples -->
+      <div class="circle xxlarge shade1 right"></div>
+      <div class="circle xlarge shade2 right"></div>
+      <div class="circle large shade3 right"></div>
+      <div class="circle medium shade4 right"></div>
+      <div class="circle small shade5 right"></div>
+    </div>
+    
     <div id="app">
       <canvas id="game" aria-label="Espresso Shot timing game" role="img"></canvas>
       <div id="hud">
@@ -27,6 +44,7 @@
             <button id="toggleBridge" aria-pressed="true" title="Toggle moving green zone">Bridge: On</button>
             <button id="muteBtn" aria-pressed="false" title="Toggle sound">Sound: On</button>
             <button id="resetBtn" title="Reset run">Reset</button>
+            <button id="howtoBtn" title="How to play">How&nbsp;To&nbsp;Play</button>
           </div>
         </div>
       </div>
@@ -36,7 +54,32 @@
       </div>
     </div>
 
+    <div id="howto" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
+      <div class="dialog">
+        <div id="howtoTitle" class="dialog-title">How To Play</div>
+        <div class="dialog-desc">
+          Time your tap when the meter hits the green zone to pull a perfect shot. Streak perfects to build combo; misses cause reorgs. Toggle Bridge to move the zone.
+        </div>
+        <div class="dialog-actions">
+          <button id="howtoClose" class="btn">Got it</button>
+        </div>
+      </div>
+    </div>
+
     <script src="main.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('howtoBtn');
+        const modal = document.getElementById('howto');
+        const close = document.getElementById('howtoClose');
+        if(btn && modal && close){
+          btn.addEventListener('click', ()=> modal.classList.remove('hidden'));
+          close.addEventListener('click', ()=> modal.classList.add('hidden'));
+          modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.classList.add('hidden'); });
+          window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') modal.classList.add('hidden'); });
+        }
+      })();
+    </script>
   </body>
   </html>
 

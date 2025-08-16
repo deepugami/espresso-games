@@ -333,11 +333,8 @@
 
   function draw() {
     const w = canvas.clientWidth; const h = canvas.clientHeight;
-    // background
+    // clear only; leave canvas transparent so mugs below are visible outside the strip
     ctx.clearRect(0, 0, w, h);
-    const g = ctx.createLinearGradient(0, 0, 0, h);
-    g.addColorStop(0, colors.bg1); g.addColorStop(1, colors.bg0);
-    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
 
     const layout = computeLayout(w, h);
     // conveyor strip

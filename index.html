@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, viewport-fit=cover" />
     <title>Espresso Games</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,7 +35,7 @@
     </header>
     <main class="grid">
       <a class="card playable" href="espresso-shot/index.html">
-        <div class="thumb thumb-shot"></div>
+        <div class="thumb thumb-shot" data-img="card-img/espresso-shot.png"></div>
         <div class="card-body">
           <div class="card-title">Espresso Shot</div>
           <div class="card-desc">Single-button timing<br>Hit the green zone to confirm rollups.</div>
@@ -51,7 +51,7 @@
         </div>
       </a>
       <a class="card playable" href="type-espresso/index.html">
-        <div class="thumb thumb-type"></div>
+        <div class="thumb thumb-type" data-img="card-img/type-espresso.png"></div>
         <div class="card-body">
           <div class="card-title">Type Espresso</div>
           <div class="card-desc">Time-based typing game<br>Measure WPM and accuracy.</div>
@@ -59,7 +59,7 @@
         </div>
       </a>
       <a class="card playable" href="order-stack/index.html">
-        <div class="thumb thumb-stack"></div>
+        <div class="thumb thumb-stack" data-img="card-img/order-stack.png"></div>
         <div class="card-body">
           <div class="card-title">Order Stack</div>
           <div class="card-desc">Stop three reels to match the order. Exact stacks finalize; wrong stacks reorg.</div>
@@ -67,7 +67,7 @@
         </div>
       </a>
       <a class="card playable" href="jigsaw-espresso/index.html">
-        <div class="thumb thumb-jigsaw"></div>
+        <div class="thumb thumb-jigsaw" data-img="card-img/jigsaw-espresso.png"></div>
         <div class="card-body">
           <div class="card-title">Jigsaw Espresso</div>
           <div class="card-desc">Solve NFT jigsaws fast to score big. Drag pieces, snap, and brew your best time.</div>
@@ -75,7 +75,7 @@
         </div>
       </a>
       <a class="card playable" href="elevator-pitch/index.html">
-        <div class="thumb thumb-elevator"></div>
+        <div class="thumb thumb-elevator" data-img="card-img/elevator-pitch.png"></div>
         <div class="card-body">
           <div class="card-title">Elevator Pitch</div>
           <div class="card-desc">Scramble & arrange the sentence fast. Drag, drop, and submit.</div>
@@ -230,6 +230,24 @@
           card.addEventListener('pointermove', setFromEvent);
           card.addEventListener('pointerenter', setFromEvent);
           card.addEventListener('pointerleave', reset);
+        });
+      })();
+    </script>
+    <script>
+      (function(){
+        const thumbs = Array.from(document.querySelectorAll('.thumb[data-img]'));
+        thumbs.forEach(t => {
+          const src = t.getAttribute('data-img');
+          if (!src) return;
+          const img = new Image();
+          img.onload = () => {
+            t.style.backgroundImage = `url('${src}')`;
+            t.classList.add('has-image');
+          };
+          img.onerror = () => {
+            // leave gradient as-is
+          };
+          img.src = src;
         });
       })();
     </script>

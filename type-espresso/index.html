@@ -25,11 +25,12 @@
             <button id="time60" aria-pressed="false">60s</button>
           </div>
           <button id="resetBtn">Reset</button>
+          <button id="howtoBtn">How&nbsp;To&nbsp;Play</button>
         </div>
       </div>
       <div class="wrapper">
-        <div id="prompt" class="prompt" aria-label="Typing prompt" role="article"></div>
-        <input id="hiddenInput" class="invisible-input" autocomplete="off" autocapitalize="off" spellcheck="false" />
+        <div id="prompt" class="prompt" aria-label="Typing prompt" role="article" tabindex="0"></div>
+        <input id="hiddenInput" class="invisible-input" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="text" />
       </div>
       <div id="overlay" class="overlay" aria-hidden="true">
         <div class="modal" role="dialog" aria-modal="true" aria-labelledby="resTitle">
@@ -41,10 +42,35 @@
           </div>
         </div>
       </div>
+
+      <div id="howto" class="overlay" aria-hidden="true">
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
+          <div class="modal-title" id="howtoTitle">How To Play</div>
+          <div class="modal-row">
+            Type the prompt as fast and accurately as you can within the set time. WPM and accuracy update live. Use Reset to start a new run.
+          </div>
+          <div class="modal-actions">
+            <button id="howtoClose">Got it</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="texts.js"></script>
     <script src="main.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('howtoBtn');
+        const overlay = document.getElementById('howto');
+        const close = document.getElementById('howtoClose');
+        if(btn && overlay && close){
+          btn.addEventListener('click', ()=> overlay.classList.add('show'));
+          close.addEventListener('click', ()=> overlay.classList.remove('show'));
+          overlay.addEventListener('click', (e)=>{ if(e.target === overlay) overlay.classList.remove('show'); });
+          window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') overlay.classList.remove('show'); });
+        }
+      })();
+    </script>
   </body>
   </html>
 

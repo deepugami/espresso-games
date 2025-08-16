@@ -124,6 +124,10 @@
     const total = Math.min(150, Math.max(10, Math.round(8 + text.length * 1.6)));
     const ratio = Math.max(0, Math.min(1, remaining / total));
     fill.style.width = `${Math.round(ratio * 100)}%`;
+    const bar = fill.parentElement;
+    if (bar) {
+      if (ratio <= 0.2) bar.classList.add('danger'); else bar.classList.remove('danger');
+    }
   }
 
   function render() {
@@ -148,6 +152,7 @@
       t.addEventListener('click', () => placeNextFromTray(i));
       t.draggable = true;
       t.addEventListener('dragstart', (e) => onDragStart(e, i));
+      t.addEventListener('dragend', onDragEnd);
       els.tray.appendChild(t);
     });
 
@@ -173,6 +178,12 @@
   function onDragStart(ev, trayIndex) {
     ev.dataTransfer.setData('text/plain', String(trayIndex));
     ev.dataTransfer.effectAllowed = 'move';
+    const t = ev.target;
+    if (t && t.classList) t.classList.add('dragging');
+  }
+  function onDragEnd(ev) {
+    const t = ev.target;
+    if (t && t.classList) t.classList.remove('dragging');
   }
   function onDragOver(ev) {
     ev.preventDefault();
@@ -232,6 +243,9 @@
     const gained = computeScore(text, isCorrect);
     if (isCorrect) { score += gained; consecutivePerfects += (wrongSubmissions === 0 ? 1 : 0); } else { score = Math.max(0, score - 20); consecutivePerfects = 0; }
     els.score.textContent = String(score);
+    els.score.classList.remove('bump');
+    void els.score.offsetWidth;
+    els.score.classList.add('bump');
     showResult(isCorrect, gained);
     clearInterval(timerId);
   }
@@ -243,6 +257,11 @@
   function showResult(ok, gained) {
     els.resultTitle.textContent = ok ? 'Correct!' : 'Time up / Incorrect';
     els.resultDetail.textContent = ok ? `+${gained} points` : `-${20} penalty`;
+    const card = els.modal.querySelector('.modal-card');
+    if (card) {
+      card.classList.remove('ok', 'fail');
+      card.classList.add(ok ? 'ok' : 'fail');
+    }
     els.modal.hidden = false;
   }
 

@@ -12,6 +12,12 @@
   <body>
     <div id="app">
       <canvas id="game" aria-label="Order Stack game" role="img"></canvas>
+      <div class="floating-mugs" aria-hidden="true">
+        <a href="https://ibb.co/ZR1XLLxn" class="mug" style="--x:15%;--s:1.4;--d:24s;--delay:-2s;"><img src="https://i.ibb.co/cKX3ggQG/Chat-GPT-Image-Aug-16-2025-11-07-24-PM.png" alt="Coffee mug" loading="lazy" /></a>
+        <a href="https://ibb.co/ZR1XLLxn" class="mug" style="--x:45%;--s:1.2;--d:28s;--delay:-8s;"><img src="https://i.ibb.co/cKX3ggQG/Chat-GPT-Image-Aug-16-2025-11-07-24-PM.png" alt="Coffee mug" loading="lazy" /></a>
+        <a href="https://ibb.co/ZR1XLLxn" class="mug" style="--x:75%;--s:1.5;--d:26s;--delay:-5s;"><img src="https://i.ibb.co/cKX3ggQG/Chat-GPT-Image-Aug-16-2025-11-07-24-PM.png" alt="Coffee mug" loading="lazy" /></a>
+        <a href="https://ibb.co/ZR1XLLxn" class="mug" style="--x:90%;--s:1.1;--d:30s;--delay:-12s;"><img src="https://i.ibb.co/cKX3ggQG/Chat-GPT-Image-Aug-16-2025-11-07-24-PM.png" alt="Coffee mug" loading="lazy" /></a>
+      </div>
       <div id="hud">
         <div class="left">
           <div class="order-box">
@@ -31,6 +37,7 @@
           <div class="buttons">
             <button id="muteBtn" aria-pressed="false" title="Toggle sound">Sound: On</button>
             <button id="resetBtn" title="Reset run">Reset</button>
+            <button id="howtoBtn" title="How to play">How&nbsp;To&nbsp;Play</button>
           </div>
           <div class="controls">Click/Tap a reel to stop • Space to stop highlighted</div>
         </div>
@@ -38,7 +45,32 @@
       
     </div>
 
+    <div id="howto" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
+      <div class="modal">
+        <div id="howtoTitle" class="modal-title">How To Play</div>
+        <div class="modal-body">
+          Stop each ingredient reel to match the order exactly. Exact match finalizes the rollup and boosts combo; misses break it. Use reset to try a fresh wave.
+        </div>
+        <div class="modal-actions">
+          <button id="howtoClose">Got it</button>
+        </div>
+      </div>
+    </div>
+
     <script src="main.js"></script>
+    <script>
+      (function(){
+        const btn = document.getElementById('howtoBtn');
+        const modal = document.getElementById('howto');
+        const close = document.getElementById('howtoClose');
+        if(btn && modal && close){
+          btn.addEventListener('click', ()=> modal.classList.remove('hidden'));
+          close.addEventListener('click', ()=> modal.classList.add('hidden'));
+          modal.addEventListener('click', (e)=>{ if(e.target === modal) modal.classList.add('hidden'); });
+          window.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') modal.classList.add('hidden'); });
+        }
+      })();
+    </script>
   </body>
   </html>
 

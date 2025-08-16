@@ -95,15 +95,22 @@
   function sizeGridToViewport() {
     const gap = 6;
     const padding = 24; // grid padding horizontal total (12px left + 12px right)
-    const headerHeight = 24; // fixed HUD pinned to top-right with minimal height footprint
-    // Controls are now fixed near top-left under HUD; exclude their height from grid calc
+    // Measure HUD height
+    const hudEl = document.querySelector('.hud');
+    const hudRect = hudEl ? hudEl.getBoundingClientRect() : null;
+    const hudHeight = hudRect ? Math.min(hudRect.height, 84) : 56;
+    // Measure controls
     const controlsEl = document.querySelector('.controls');
-    const controlsHeight = 0;
-    const verticalMargins = 6; // minimal breathing space
+    const controlsRect = controlsEl ? controlsEl.getBoundingClientRect() : null;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const controlsHeight = 0; // controls are top-left, no vertical reservation needed
+    const safeTop = Number(getComputedStyle(document.documentElement).getPropertyValue('--safe-top').replace('px','')) || 0;
+    const topPadding = safeTop + 16 + hudHeight; // only reserve HUD
+    const bottomReserve = 0;
     const vw = Math.min(window.innerWidth, document.documentElement.clientWidth || window.innerWidth);
     const vh = Math.min(window.innerHeight, document.documentElement.clientHeight || window.innerHeight);
     const maxWidth = vw - 24; // side paddings
-    const maxHeight = vh - headerHeight - verticalMargins;
+    const maxHeight = Math.max(240, vh - topPadding - bottomReserve);
 
     // Compute tile size from width and height constraints
     const tileFromWidth = Math.floor((maxWidth - padding - (GRID_SIZE - 1) * gap) / GRID_SIZE);
@@ -115,10 +122,13 @@
     const step = tile + gap;
     document.documentElement.style.setProperty('--fallStep', step + 'px');
 
-    // Pin controls under HUD precisely
-    if (controlsEl) {
-      controlsEl.style.top = (12 + 8) + 'px';
+    // Push main content down to avoid overlap with HUD/controls
+    const mainEl = document.querySelector('main');
+    if (mainEl) {
+      mainEl.style.paddingTop = topPadding + 'px';
     }
+
+    // Controls are pinned via CSS to top-left; no JS positioning needed
   }
 
   function makeIconEl(type) {
